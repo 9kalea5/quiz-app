@@ -5,9 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 class Quiz(models.Model):
     author = models.CharField(_("Author"), max_length=50)
-    title = models.CharField(
-        _("Quiz Title", max_length=255, unique=True, default=_("New Quiz"))
-    )
+    title = models.CharField(_("Quiz Title"), max_length=255, unique=True, default=_("New Quiz"))
     created_at = models.DateTimeField(auto_now_add=True)
     
     @property
