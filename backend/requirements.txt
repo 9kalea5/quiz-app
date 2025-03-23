@@ -1,0 +1,9 @@
+asgiref
+Django
+django-autoslug
+django-cors-headers
+djangorestframework
+pytz
+sqlparse
+typing_extensions
+tzdata
