@@ -3,7 +3,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Quiz, Question
 from .serializers import QuizSerializer, QuestionSerializer
-from rest_framework import APIView
+from rest_framework.views import APIView
 from django.http import Http404
 
 # Create your views here.
@@ -12,7 +12,7 @@ class ListCreateQuiz(generics.ListCreateAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
 
-class RetrieveUpdateDetroyQuiz(generics.RetrieveUpdateDetroyAPIView):
+class RetrieveUpdateDetroyQuiz(generics.RetrieveUpdateDestroyAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
     

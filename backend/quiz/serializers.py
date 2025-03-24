@@ -11,10 +11,11 @@ class QuizSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "created_at",
+            "question_count",
         ]
         
-        def get_question_count(self, obj):
-            return obj.question_count
+    def get_question_count(self, obj):
+        return obj.questions.count()  
         
 class AnswerSerializer(serializers.ModelSerializer):
     
@@ -55,6 +56,6 @@ class QuestionSerializer(serializers.ModelSerializer):
         for answer_data in answer_data:
             Answer.objects.create(question=instance, **answers_data)
             
-            instance.save()
+        instance.save()
             
-            return instance
+        return instance
