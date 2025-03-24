@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getQuizzes } from '../services/api';
+import { getQuizzes } from './api';
 
-const QuizList = () => {
+export default function QuizList() {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,5 +54,3 @@ const QuizList = () => {
     </div>
   );
 };
-
-export default QuizList;

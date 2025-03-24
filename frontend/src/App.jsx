@@ -1,15 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import QuizList from './components/QuizList';
-import QuizDetail from './components/QuizDetail';
-import QuizForm from './components/QuizForm';
-import QuestionForm from './components/QuestionForm';
-import Navbar from './components/Navbar';
+import QuizList from "./components/QuizList";
+import QuizDetail from "./components/QuizDetail";
+import QuizForm from "./components/QuizForm";
+import QuestionForm from "./components/QuestionForm";
+
+
 
 function App() {
   return (
     <Router>
-      <Navbar />
+    
       <div className="container mt-4">
         <Routes>
           <Route path="/" element={<QuizList />} />

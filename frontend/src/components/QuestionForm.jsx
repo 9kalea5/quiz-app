@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getQuestion, createQuestion, updateQuestion } from '../services/api';
+import { getQuestion, createQuestion, updateQuestion } from './api';
 
 const QuestionForm = () => {
   const { id, quizId } = useParams();

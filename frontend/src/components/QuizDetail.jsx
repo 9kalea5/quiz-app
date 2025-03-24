@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getQuiz, getQuestions, deleteQuiz } from '../services/api';
+import { getQuiz, getQuestions, deleteQuiz } from './api';
 
-const QuizDetail = () => {
+export default function QuizDetail() {
   const { id } = useParams();
   const [quiz, setQuiz] = useState(null);
   const [questions, setQuestions] = useState([]);
@@ -103,5 +103,3 @@ const QuizDetail = () => {
     </div>
   );
 };
-
-export default QuizDetail;
