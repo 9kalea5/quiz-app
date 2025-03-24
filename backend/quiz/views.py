@@ -42,4 +42,22 @@ class QuizQuestionDetail(APIView):
         except Question.DoesNotExist:
             raise Http404
     def get(self, request, pk, format=None):
-        question = self.get_object
+        question = self.get_object(pk)
+        serializer = QuestionSerializer(question)
+        return Response(serializer.data)
+    
+    def patch(self, request, pk, format=None):
+        question = self.get_object(pk)
+        serializer = QuestionSerializer(question, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk, format=None):
+        question = self.get_object(pk)
+        question.delete()
+        return Response(
+            {"message": "Question deletedsuccessfully"},
+            status = status.HTTP_204_NO_CONTENT
+        )
