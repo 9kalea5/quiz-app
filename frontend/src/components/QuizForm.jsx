@@ -1,33 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getQuiz, createQuiz, updateQuiz } from './api';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createQuiz } from './api';
 
-const QuizForm = () => {
-  const { id } = useParams();
+export default function QuizForm() {
   const navigate = useNavigate();
   const [quiz, setQuiz] = useState({
     title: '',
     author: '',
   });
-  const [isEdit, setIsEdit] = useState(false);
-  const [loading, setLoading] = useState(!!id);
-
-  useEffect(() => {
-    if (id) {
-      const fetchQuiz = async () => {
-        try {
-          const response = await getQuiz(id);
-          setQuiz(response.data);
-          setIsEdit(true);
-        } catch (error) {
-          console.error('Error fetching quiz:', error);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchQuiz();
-    }
-  }, [id]);
+  const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,24 +18,30 @@ const QuizForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
+    
     try {
-      if (isEdit) {
-        await updateQuiz(id, quiz);
-      } else {
-        await createQuiz(quiz);
-      }
+      const response = await createQuiz(quiz);
+      console.log('Quiz created:', response.data);
       navigate('/');
     } catch (error) {
       console.error('Error saving quiz:', error);
+      setError(error.response?.data || error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
-
-  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="card">
       <div className="card-body">
-        <h2 className="card-title">{isEdit ? 'Edit Quiz' : 'Create New Quiz'}</h2>
+        <h2 className="card-title">Create New Quiz</h2>
+        {error && (
+          <div className="alert alert-danger">
+            Error: {typeof error === 'object' ? JSON.stringify(error) : error}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="title" className="form-label">
@@ -83,8 +71,12 @@ const QuizForm = () => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">
-            {isEdit ? 'Update Quiz' : 'Create Quiz'}
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Creating...' : 'Create Quiz'}
           </button>
         </form>
       </div>
@@ -92,4 +84,3 @@ const QuizForm = () => {
   );
 };
 
-export default QuizForm;
